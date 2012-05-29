@@ -89,10 +89,12 @@
     <div style="clear: both"></div>
     <hr />
     <%= f.input :redemption_details, :as => :text, input_html: {style: "width: 255px;height: 150px;"} %>
-    <%= f.button :submit %>
+    <center>
+      <%= f.button :submit, class: 'btn-primary' %>
+      </center>
 
-  <% end %>
+    <% end %>
 
 
-  <%= link_to 'Show', @promo %> |
-  <%= link_to 'Back', promos_path %>
+    <%= link_to 'Show', @promo %> |
+    <%= link_to 'Back', promos_path %>
