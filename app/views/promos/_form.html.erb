@@ -28,7 +28,16 @@
           <h3>Business <%= i + 1 %> Details</h3>
         </div>
         <div class="control-group select optional" id="wrapper_business_select_<%= i %>">
-          <%= render "business_select", {i: i} %>
+          <label for="promo_promo_business_details_attributes_<%= i %>_business_id" class="select optional control-label">Business</label>
+          <div class="controls">
+            <select name="promo[promo_business_details_attributes][<%= i %>][business_id]" id="promo_promo_business_details_attributes_<%= i %>_business_id" class="select optional business_select_<%= i %>">
+              <option value="">Choose a Business</option>
+              <% Business.all.each do |business| %>
+                <option value="<%= business.id %>"><%= business.name %></option>
+              <% end %>
+            </select>
+            <%= link_to "create", new_business_path(nested_sequence: i), :remote => true %>
+          </div>
         </div>
 
         <div class="control-group select optional" id="product_select_<%= i %>">

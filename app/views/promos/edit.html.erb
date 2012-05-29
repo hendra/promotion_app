@@ -2,7 +2,97 @@
   <h2>Edit Promotion</h2>
 </div>
 
-<%= render 'form' %>
+<div class="modal hide fade" id="myModal">
 
-<%= link_to 'Show', @promo %> |
-<%= link_to 'Back', promos_path %>
+</div>
+<%= simple_form_for(@promo, html: {class: "form-horizontal"}) do |f| %>
+    <% if @promo.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@promo.errors.count, "error") %> prohibited this promo from being saved:</h2>
+
+        <ul>
+          <% @promo.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= f.input :name %>
+    <%= f.input :start_date, input_html: {style: "width: 100px;"} %>
+    <%= f.input :end_date, input_html: {style: "width: 100px;"} %>
+    <%= f.input :title %>
+    <%= f.input :subtitle %>
+    <%= f.input :description, :as => :text, input_html: {style: "width: 255px;height: 150px;"} %>
+    <hr />
+    <% i = 0 %>
+    <%= f.simple_fields_for :promo_business_details do |pbd| %>
+      <div class="span5">
+        <div class="page-header">
+          <h3>Business <%= i + 1 %> Details</h3>
+        </div>
+        <div class="control-group select optional" id="wrapper_business_select_<%= i %>">
+          <label for="promo_promo_business_details_attributes_<%= i %>_business_id" class="select optional control-label">Business</label>
+          <div class="controls">
+            <select name="promo[promo_business_details_attributes][<%= i %>][business_id]" id="promo_promo_business_details_attributes_<%= i %>_business_id" class="select optional business_select_<%= i %>">
+              <option value="">Choose a Business</option>
+              <% Business.all.each do |business| %>
+                <% if pbd.object.business.eql?(business) %>
+                  <option value="<%= business.id %>" selected="selected"><%= business.name %></option>
+                <% else %>
+                  <option value="<%= business.id %>"><%= business.name %></option>
+                <% end %>
+              <% end %>
+            </select>
+            <%= link_to "create", new_business_path(nested_sequence: i), :remote => true %>
+          </div>
+          <!-- Don't put this javascript code to another place!, bugs will shown if you move it-->
+          <script type="text/javascript">
+            $('.business_select_<%= i %>').change(function(){
+              nested_sequence = $(this).parent().parent().next().next().find(':input').val();
+              $(this).parent().parent().next().addClass('need_to_replace');
+              business_id = $(this).val();
+              if(business_id == ''){
+                $.get('/businesses/undefined/products.js?nested_sequence='+nested_sequence);
+              }else{
+                $.get('/businesses/'+business_id+'/products.js?nested_sequence='+nested_sequence);
+              }
+    
+            })
+          </script>
+        </div>
+
+        <div class="control-group select optional" id="product_select_<%= i %>">
+          <label for="promo_promo_business_details_attributes_<%= i %>_product_id" class="select optional control-label">Product</label>
+          <div class="controls">
+            <select name="promo[promo_business_details_attributes][<%= i %>][product_id]" id="promo_promo_business_details_attributes_<%= i %>_product_id" class="select optional">
+              <option value="">Choose a Product</option>
+              <% pbd.object.business.products.each do |product| %>
+                <% if pbd.object.product.eql?(product) %>
+                  <option value="<%= product.id %>" selected="selected"><%= product.name %></option>
+                <% else %>
+                  <option value="<%= product.id %>"><%= product.name %></option>
+                <% end %>
+              <% end unless pbd.object.business.blank? %>
+            </select>
+            <% if pbd.object.business %>
+              <%= link_to "create", new_business_product_path(pbd.object.business, nested_sequence: i), remote: true %>
+            <% end %>
+          </div>
+        </div>
+        <%= pbd.input :nested_sequence, input_html: {value: i}, as: :hidden %>
+        <%= pbd.input :retail_price %>
+        <%= pbd.input :discounted_price %>  
+        <% i += 1 %>
+      </div>
+    <% end %>
+    <div style="clear: both"></div>
+    <hr />
+    <%= f.input :redemption_details, :as => :text, input_html: {style: "width: 255px;height: 150px;"} %>
+    <%= f.button :submit %>
+
+  <% end %>
+
+
+  <%= link_to 'Show', @promo %> |
+  <%= link_to 'Back', promos_path %>
