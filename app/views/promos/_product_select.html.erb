@@ -1,0 +1,12 @@
+<label for="promo_promo_business_details_attributes_<%= i %>_product_id" class="select optional control-label">Product</label>
+<div class="controls">
+  <select name="promo[promo_business_details_attributes][<%= i %>][product_id]" id="promo_promo_business_details_attributes_<%= i %>_product_id" class="select optional">
+    <option value="">Choose a Product</option>
+    <% business.products.each do |product| %>
+      <option value="<%= product.id %>"><%= product.name %></option>
+    <% end unless business.blank? %>
+  </select>
+  <% if business %>
+    <%= link_to "create", new_business_product_path(business, nested_sequence: i), remote: true %>
+  <% end %>
+</div>

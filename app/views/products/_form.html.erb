@@ -1,0 +1,29 @@
+<%= simple_form_for(@product, url: business_products_path(@business), html: {class: 'form-horizontal', remote: true}) do |f| %>
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Create new Product for <%= @business.name %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @product.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+        <ul>
+          <% @product.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= f.input :name %>
+    <%= f.input :nested_sequence, as: :hidden %>
+    <%= f.input :business_id, as: :hidden %>
+    <%= f.input :retail_price %>
+    <%= f.input :discounted_price %>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn close" data-dismiss="modal">Close</a>
+    <%= f.submit "Save changes", :class => 'btn btn-primary' %>
+  </div>
+<% end %>

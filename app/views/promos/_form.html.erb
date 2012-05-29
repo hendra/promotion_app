@@ -1,0 +1,48 @@
+<div class="modal hide fade" id="myModal">
+
+</div>
+<%= simple_form_for(@promo, html: {class: "form-horizontal"}) do |f| %>
+    <% if @promo.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@promo.errors.count, "error") %> prohibited this promo from being saved:</h2>
+
+        <ul>
+          <% @promo.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= f.input :name %>
+    <%= f.input :start_date, input_html: {style: "width: 100px;"} %>
+    <%= f.input :end_date, input_html: {style: "width: 100px;"} %>
+    <%= f.input :title %>
+    <%= f.input :subtitle %>
+    <%= f.input :description, :as => :text, input_html: {style: "width: 255px;height: 150px;"} %>
+    <hr />
+    <% i = 0 %>
+    <%= f.simple_fields_for :promo_business_details do |pbd| %>
+      <div class="span5">
+        <div class="page-header">
+          <h3>Business <%= i + 1 %> Details</h3>
+        </div>
+        <div class="control-group select optional" id="wrapper_business_select_<%= i %>">
+          <%= render "business_select", {i: i} %>
+        </div>
+
+        <div class="control-group select optional" id="product_select_<%= i %>">
+          <%= render "product_select", {i: i, business: nil} %>
+        </div>
+        <%= pbd.input :nested_sequence, input_html: {value: i}, as: :hidden %>
+        <%= pbd.input :retail_price %>
+        <%= pbd.input :discounted_price %>  
+        <% i += 1 %>
+      </div>
+    <% end %>
+    <div style="clear: both"></div>
+    <hr />
+    <%= f.input :redemption_details, :as => :text, input_html: {style: "width: 255px;height: 150px;"} %>
+    <%= f.button :submit %>
+
+  <% end %>

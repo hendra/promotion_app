@@ -1,0 +1,37 @@
+<div class="page-header">
+  <h1>Listing promos</h1>
+</div>
+
+<table class="table table-condensed">
+  <tr>
+    <th>Name</th>
+    <th>Start date</th>
+    <th>End date</th>
+    <th>Title</th>
+    <th>Subtitle</th>
+    <th>Description</th>
+    <th>Redemption details</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @promos.each do |promo| %>
+    <tr>
+      <td><%= promo.name %></td>
+      <td><%= promo.start_date %></td>
+      <td><%= promo.end_date %></td>
+      <td><%= promo.title %></td>
+      <td><%= promo.subtitle %></td>
+      <td><%= promo.description %></td>
+      <td><%= promo.redemption_details %></td>
+      <td><%= link_to 'Show', promo %></td>
+      <td><%= link_to 'Edit', edit_promo_path(promo) %></td>
+      <td><%= link_to 'Destroy', promo, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Promo', new_promo_path %>

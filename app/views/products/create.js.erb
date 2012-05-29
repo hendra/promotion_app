@@ -1,0 +1,6 @@
+<% if @is_save %>
+  $('#product_select_<%= @product.nested_sequence %>').html('<%= escape_javascript(render 'promos/product_select', {i: @product.nested_sequence, business: @business}) %>');
+  $('#myModal').modal('hide');
+<% else %>
+  $('#myModal').html('<%= escape_javascript(render 'form') %>');
+<% end %>

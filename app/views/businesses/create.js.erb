@@ -1,0 +1,7 @@
+<% if @is_save %>
+  $('#wrapper_business_select_<%= @business.nested_sequence %>').html('<%= escape_javascript(render 'promos/business_select', {i: @business.nested_sequence} ) %>');
+  $('#product_select_<%= @business.nested_sequence %>').html('<%= escape_javascript(render 'promos/product_select', {i: @business.nested_sequence, business: nil}) %>');
+  $('#myModal').modal('hide');
+<% else %>
+  $('#myModal').html('<%= escape_javascript(render 'form') %>');
+<% end %>

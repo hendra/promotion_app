@@ -1,0 +1,27 @@
+<%= simple_form_for(@business, html: {class: 'form-horizontal', remote: true}) do |f| %>
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Create new Business</h3>
+  </div>
+  <div class="modal-body">
+    <% if @business.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@business.errors.count, "error") %> prohibited this business from being saved:</h2>
+
+        <ul>
+          <% @business.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <%= f.input :name %>
+    <%= f.input :nested_sequence, as: :hidden %>
+    <%= f.input :description, input_html: {rows: 10, style: 'width:300px'} %>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn close" data-dismiss="modal">Close</a>
+    <%= f.submit "Save changes", :class => 'btn btn-primary' %>
+  </div>
+
+<% end %>

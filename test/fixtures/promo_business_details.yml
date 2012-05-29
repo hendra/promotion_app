@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  business_id: 1
+  product_id: 1
+  retail_price: 1.5
+  discounted_price: 1.5
+
+two:
+  business_id: 1
+  product_id: 1
+  retail_price: 1.5
+  discounted_price: 1.5

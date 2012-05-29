@@ -1,0 +1,25 @@
+<label for="promo_promo_business_details_attributes_<%= i %>_business_id" class="select optional control-label">Business</label>
+<div class="controls">
+  <select name="promo[promo_business_details_attributes][<%= i %>][business_id]" id="promo_promo_business_details_attributes_<%= i %>_business_id" class="select optional business_select_<%= i %>">
+    <option value="">Choose a Business</option>
+    <% Business.all.each do |business| %>
+      <option value="<%= business.id %>"><%= business.name %></option>
+    <% end %>
+  </select>
+  <%= link_to "create", new_business_path(nested_sequence: i), :remote => true %>
+</div>
+
+<script type="text/javascript">
+
+  $('.business_select_<%= i %>').change(function(){
+    nested_sequence = $(this).parent().parent().next().next().find(':input').val();
+    $(this).parent().parent().next().addClass('need_to_replace');
+    business_id = $(this).val();
+    if(business_id == ''){
+      $.get('/businesses/undefined/products.js?nested_sequence='+nested_sequence);
+    }else{
+      $.get('/businesses/'+business_id+'/products.js?nested_sequence='+nested_sequence);
+    }
+    
+  })
+</script>
